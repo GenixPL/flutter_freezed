@@ -1,8 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'union.freezed.dart';
+part 'union.g.dart';
 
-@freezed
+@Freezed(
+  unionKey: 'union-type',
+)
 abstract class Union with _$Union {
   const factory Union.a({
     required int a,
@@ -13,6 +16,8 @@ abstract class Union with _$Union {
     required int b,
     required bool flag,
   }) = B;
+
+  factory Union.fromJson(Map<String, dynamic> json) => _$UnionFromJson(json);
 }
 
 void main() {

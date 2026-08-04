@@ -11,11 +11,37 @@ part of 'union.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+Union _$UnionFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['union-type']) {
+                  case 'a':
+          return A.fromJson(
+            json
+          );
+                case 'b':
+          return B.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'union-type',
+  'Union',
+  'Invalid union type "${json['union-type']}"!'
+);
+        }
+      
+}
+
 /// @nodoc
 mixin _$Union {
 
 
 
+  /// Serializes this Union to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -23,7 +49,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Union);
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => runtimeType.hashCode;
 
@@ -178,14 +204,18 @@ return b(_that.b,_that.flag);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class A implements Union {
-  const A({required this.a, required this.name});
-  
+  const A({required this.a, required this.name, final  String? $type}): $type = $type ?? 'a';
+  factory A.fromJson(Map<String, dynamic> json) => _$AFromJson(json);
 
  final  int a;
  final  String name;
+
+@JsonKey(name: 'union-type')
+final String $type;
+
 
 /// Create a copy of Union
 /// with the given fields replaced by the non-null parameter values.
@@ -193,14 +223,17 @@ class A implements Union {
 @pragma('vm:prefer-inline')
 $ACopyWith<A> get copyWith => _$ACopyWithImpl<A>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$AToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is A&&(identical(other.a, a) || other.a == a)&&(identical(other.name, name) || other.name == name));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,a,name);
 
@@ -246,14 +279,18 @@ as String,
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class B implements Union {
-  const B({required this.b, required this.flag});
-  
+  const B({required this.b, required this.flag, final  String? $type}): $type = $type ?? 'b';
+  factory B.fromJson(Map<String, dynamic> json) => _$BFromJson(json);
 
  final  int b;
  final  bool flag;
+
+@JsonKey(name: 'union-type')
+final String $type;
+
 
 /// Create a copy of Union
 /// with the given fields replaced by the non-null parameter values.
@@ -261,14 +298,17 @@ class B implements Union {
 @pragma('vm:prefer-inline')
 $BCopyWith<B> get copyWith => _$BCopyWithImpl<B>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$BToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is B&&(identical(other.b, b) || other.b == b)&&(identical(other.flag, flag) || other.flag == flag));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,b,flag);
 
